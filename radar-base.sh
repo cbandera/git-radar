@@ -55,6 +55,7 @@ prepare_bash_colors() {
 
   COLOR_BRANCH="\x01${GIT_RADAR_COLOR_BRANCH:-"\\033[0m"}\x02"
   MASTER_SYMBOL="${GIT_RADAR_MASTER_SYMBOL:-"\\x01\\033[0m\\x02\\xF0\\x9D\\x98\\xAE\\x01\\033[0m\\x02"}"
+  TRACKED_REMOTE="${GIT_RADAR_TRACKED_REMOTE:-"origin/master"}"
 
   PROMPT_FORMAT="${GIT_RADAR_FORMAT:-" \\x01\\033[1;30m\\x02git:(\\x01\\033[0m\\x02%{remote: }%{branch}%{ :local}\\x01\\033[1;30m\\x02)\\x01\\033[0m\\x02%{ :stash}%{ :changes}"}"
 
@@ -95,6 +96,7 @@ prepare_zsh_colors() {
 
   COLOR_BRANCH="%{${GIT_RADAR_COLOR_BRANCH:-$reset_color}%}"
   MASTER_SYMBOL="${GIT_RADAR_MASTER_SYMBOL:-"%{$reset_color%}$italic_m%{$reset_color%}"}"
+  TRACKED_REMOTE="${GIT_RADAR_TRACKED_REMOTE:-"origin/master"}"
 
   PROMPT_FORMAT="${GIT_RADAR_FORMAT:-" %{$fg_bold[grey]%}git:(%{$reset_color%}%{remote: }%{branch}%{ :local}%{$fg_bold[grey]%})%{$reset_color%}%{ :stash}%{ :changes}"}"
 
@@ -271,9 +273,8 @@ commits_ahead_of_remote() {
 
 remote_behind_of_master() {
   remote_branch=${1:-"$(remote_branch_name)"}
-  tracked_remote="origin/master"
-  if [[ -n "$remote_branch" && "$remote_branch" != "$tracked_remote" ]]; then
-    git rev-list --left-only --count ${tracked_remote}...${remote_branch} 2>/dev/null || printf '%s' "0"
+  if [[ -n "$remote_branch" && "$remote_branch" != "$TRACKED_REMOTE" ]]; then
+    git rev-list --left-only --count ${TRACKED_REMOTE}...${remote_branch} 2>/dev/null || printf '%s' "0"
   else
     printf '%s' "0"
   fi
@@ -281,9 +282,8 @@ remote_behind_of_master() {
 
 remote_ahead_of_master() {
   remote_branch=${1:-"$(remote_branch_name)"}
-  tracked_remote="origin/master"
-  if [[ -n "$remote_branch" && "$remote_branch" != "$tracked_remote" ]]; then
-    git rev-list --right-only --count ${tracked_remote}...${remote_branch} 2>/dev/null || printf '%s' "0"
+  if [[ -n "$remote_branch" && "$remote_branch" != "$TRACKED_REMOTE" ]]; then
+    git rev-list --right-only --count ${TRACKED_REMOTE}...${remote_branch} 2>/dev/null || printf '%s' "0"
   else
     printf '%s' "0"
   fi

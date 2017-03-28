@@ -552,6 +552,23 @@ The colour to use for the lines that indicates how many stashes you have stored.
 It is unset by `GIT_RADAR_COLOR_STASH_RESET` which you can set if you want
 a different background colour to return to.
 
+##### Changing the tracked remote symbol
+
+**GIT_RADAR_TRACKED_REMOTE='[remote]/[branch]'**
+```
+git:(m ← 1 my-branch)
+     ^
+```
+The symbol to use for the tracked remote.
+
+##### Changing the tracked remote branch
+
+**GIT_RADAR_TRACKED_REMOTE='[remote]/[branch]'**
+```
+git:(m ← 1 my-branch)
+```
+The branch that the current state progress is compared to. This might be used, when the major development takes place on i.e. `origin/develop`. Defaults to `origin/master`.
+
 ## License
 
 Git Radar is licensed under the MIT license.
